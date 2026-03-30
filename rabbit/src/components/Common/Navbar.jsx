@@ -20,16 +20,16 @@ const Navbar =()=>{
             </div>
             {/*  center navigation */}
             <div className="hidden md:flex space-x-6">
-              <Link to={"/"} className="text-gray-500 hover:text-black text-sm font-medium uppercase">
+              <Link to={"/collections/Men"} className="text-gray-500 hover:text-black text-sm font-medium uppercase">
               Men
               </Link>
-              <Link to={"/"} className="text-gray-500 hover:text-black text-sm font-medium uppercase">
+              <Link to={"/collections/Women"} className="text-gray-500 hover:text-black text-sm font-medium uppercase">
               Women
               </Link>
-              <Link to={"/"} className="text-gray-500 hover:text-black text-sm font-medium uppercase">
+              <Link to={"/collections/Topwear"} className="text-gray-500 hover:text-black text-sm font-medium uppercase">
               Top wear
               </Link>
-              <Link to={"/"} className="text-gray-500 hover:text-black text-sm font-medium uppercase">
+              <Link to={"/collections/BottomWear"} className="text-gray-500 hover:text-black text-sm font-medium uppercase">
               Botton Wear
               </Link>
             </div>

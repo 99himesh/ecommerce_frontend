@@ -13,7 +13,7 @@ const Hero=()=>{
                     VACATION <br/> READY
                 </h1>
                 <p className="text-sm mb-6">Explore Our vacation ready </p>
-                <Link className="bg-white text-gray-590 px-6 py-2 rounded-sm text-black" >Shop Now </Link>
+                <Link to={"/collections/all"} className="bg-white text-gray-590 px-6 py-2 rounded-sm text-black" >Shop Now </Link>
 
             </div>
 

@@ -284,11 +284,16 @@ router.put("/:id",protect,admin,async(req,res)=>{
      router.get("/:id",async(req,res)=>{
       try {
           const {id}=req.params;
+          console.log(id);
+          
           const product=await Product.findById(id);
+          console.log(product);
+          
           if(product){
               res.status(200).json({
                 message:"Product details fetch successfully",
-                data:product
+                data:product,
+                status:true
             })
           }else{
             res.status(404).json({message:"Product not found"})
@@ -306,7 +311,6 @@ router.put("/:id",protect,admin,async(req,res)=>{
     try {
         const {id}=req.params;
         const product=await Product.findById(id);
-        
         if(!product){
             res.status(404).json("Product not found")
         }

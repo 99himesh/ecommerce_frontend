@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const FilterSidebar = ({ setFilterOpen, filterOpen }) => {
+const FilterSidebar = ({ setFilterOpen, filterOpen ,filter,setFilter}) => {
   const colors = [
     "red",
     "blue",
@@ -26,9 +26,42 @@ const FilterSidebar = ({ setFilterOpen, filterOpen }) => {
     "Fashionista",
     "ChicStyle",
   ];
-
+   const material = [
+    "Denim",
+    "Cotton",
+    "Fleece",
+    "Rayon",
+    "Silk",
+    "Cotton Silk",
+  ];
   const [price, setPrice] = useState(50);
+   const sizeHandler=(e)=>{
+      const {value,checked}=e.target;
+      if(checked){
+          setFilter({...filter,size:[...filter?.size,value]});
+      }else{
+          setFilter({...filter,size: filter.size.filter((s) => s !== value)}); 
+      }
 
+    }
+    const brandHandler=(e)=>{
+  const {value,checked}=e.target;
+  if(checked){
+       setFilter({...filter,brand:[...filter?.brand,value]});  
+  }else{
+       setFilter({...filter,brand: filter.brand.filter((s) => s !== value)}); 
+  }
+
+}
+const MaterialHandler=(e)=>{
+  const {value,checked}=e.target;
+  if(checked){
+       setFilter({...filter,material:[...filter?.material,value]});        
+  }else{
+       setFilter({...filter,material: filter.material.filter((s) => s !== value)});   
+  }
+
+}
   return (
     <>
       {/* Overlay */}
@@ -62,10 +95,10 @@ const FilterSidebar = ({ setFilterOpen, filterOpen }) => {
           <div>
             <h3 className="font-semibold mb-2">Category</h3>
             <label className="flex items-center gap-2 mb-1">
-              <input type="radio" name="category" /> Top Wear
+              <input onChange={(e)=>{setFilter({...filter,category:"Topwear"}),setFilterOpen(false)}} value={filter?.category}  type="radio" name="category" /> Top Wear
             </label>
             <label className="flex items-center gap-2">
-              <input type="radio" name="category" /> Bottom Wear
+              <input onChange={(e)=>{setFilter({...filter,category:"Bottomwear"}),setFilterOpen(false)}} value={filter?.category}  type="radio" name="category" /> Bottom Wear
             </label>
           </div>
 
@@ -73,10 +106,10 @@ const FilterSidebar = ({ setFilterOpen, filterOpen }) => {
           <div>
             <h3 className="font-semibold mb-2">Gender</h3>
             <label className="flex items-center gap-2 mb-1">
-              <input type="radio" name="gender" /> Men
+              <input onChange={(e)=>{setFilter({...filter,gender:"Men"}),setFilterOpen(false)}} value={filter?.gender}  type="radio" name="gender" /> Men
             </label>
             <label className="flex items-center gap-2">
-              <input type="radio" name="gender" /> Women
+              <input onChange={(e)=>{setFilter({...filter,gender:"Women"}),setFilterOpen(false)}} value={filter?.gender}  type="radio" name="gender" /> Women
             </label>
           </div>
 
@@ -87,6 +120,7 @@ const FilterSidebar = ({ setFilterOpen, filterOpen }) => {
             <div className="grid grid-cols-5 gap-3">
               {colors.map((color, i) => (
                 <button
+                  onClick={()=>{setFilter({...filter,color:color}),setFilterOpen(false)}}
                   key={i}
                   className="w-7 h-7 rounded-full border"
                   style={{ backgroundColor: color }}
@@ -95,38 +129,39 @@ const FilterSidebar = ({ setFilterOpen, filterOpen }) => {
             </div>
           </div>
 
+        
+
           {/* Size */}
           <div>
             <h3 className="font-semibold mb-2">Size</h3>
 
-            {sizes.map((size) => (
-              <label key={size} className="flex items-center gap-2 mb-1">
-                <input type="checkbox" />
-                {size}
+            {sizes?.map((item) => (
+              <label key={item} className="flex items-center gap-2 mb-1">
+                <input  onChange={(e) => {sizeHandler(e),setFilterOpen(false)}}  value={item} type="checkbox" />
+                {item}
               </label>
             ))}
           </div>
 
-          {/* Material */}
+  {/* Material */}
           <div>
             <h3 className="font-semibold mb-2">Material</h3>
 
-            {sizes.map((size) => (
-              <label key={size} className="flex items-center gap-2 mb-1">
-                <input type="checkbox" />
-                {size}
+            {material.map((item) => (
+              <label key={item} className="flex items-center gap-2 mb-1">
+                <input onChange={(e) => {MaterialHandler(e),setFilterOpen(false)}}  value={item} type="checkbox" />
+                {item}
               </label>
             ))}
           </div>
-
           {/* Brand */}
           <div>
             <h3 className="font-semibold mb-2">Brand</h3>
 
-            {brands.map((brand) => (
-              <label key={brand} className="flex items-center gap-2 mb-1">
-                <input type="checkbox" />
-                {brand}
+            {brands?.map((item) => (
+              <label key={item} className="flex items-center gap-2 mb-1">
+                <input  onChange={(e) => {brandHandler(e),setFilterOpen(false)}}  value={item} type="checkbox" />
+                {item}
               </label>
             ))}
           </div>
@@ -138,15 +173,15 @@ const FilterSidebar = ({ setFilterOpen, filterOpen }) => {
             <input
               type="range"
               min="0"
-              max="100"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              max="10000"
+              value={filter.maxPrice}
+              onChange={(e) => {setFilter({...filter,maxPrice:e.target.value})}}
               className="w-full"
             />
 
             <div className="flex justify-between text-sm mt-1">
               <span>$0</span>
-              <span>${price}</span>
+              <span>${filter.maxPrice}</span>
             </div>
           </div>
         </div>

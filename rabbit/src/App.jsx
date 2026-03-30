@@ -8,8 +8,10 @@ import Profile from "./Pages/Profile"
 import CollectionPage from "./Pages/CollectionPage"
 import ProductDetails from "./components/Product/ProductDetails"
 import Checkout from "./components/Cart/Checkout"
+import MyOrderPage from "./Pages/MyOrderPage"
+import ThankYouPage from "./Pages/ThakyouPage"
 function App() {
-
+  
   return (
     <>
      <Toaster position="top-right"/>
@@ -24,6 +26,9 @@ function App() {
       <Route path="collections/:collection" element={<CollectionPage/>}/>
       <Route path="product/:id" element={<ProductDetails/>}/>
       <Route path="checkout" element={<Checkout/>}/>
+      <Route path="order" element={<MyOrderPage/>}/>
+      <Route path="thankyou/:id" element={<ThankYouPage/>}/>
+      
     
     </Route>
     {/* Admin Layout */}

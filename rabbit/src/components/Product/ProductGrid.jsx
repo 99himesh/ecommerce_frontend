@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 const products = [
   {
     id: 1,
@@ -29,7 +31,7 @@ const products = [
   }
 ];
 
-const ProductGrid = () => {
+const ProductGrid = ({similerProducts}) => {
   return (
     <div className="max-w-6xl mx-auto bg-white p-8">
 
@@ -37,12 +39,12 @@ const ProductGrid = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
 
-        {products.map((product) => (
-          <div key={product.id} className="cursor-pointer">
+        {similerProducts?.map((product) => (
+          <Link to={`/product/${product?._id}`} key={product.id} className="cursor-pointer">
 
             {/* Image */}
             <img
-              src={product.image}
+              src={product.images[0]?.url}
               alt={product.name}
               className="w-full h-72 object-cover rounded-lg"
             />
@@ -60,7 +62,7 @@ const ProductGrid = () => {
 
             </div>
 
-          </div>
+          </Link>
         ))}
 
       </div>

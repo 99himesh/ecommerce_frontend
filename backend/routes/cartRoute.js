@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
     }
     // check user is login or guest
     const cart = await getCart(userId, guestId);
-
+    
     //    if cart exist than update
 
     if (cart) {
@@ -55,7 +55,7 @@ router.post("/", async (req, res) => {
         0,
       );
       await cart.save();
-      res.status(200).json(cart);
+      res.status(200).json({status:true,cart});
     } else {
       //  create a new cart for guest or user
       const newCart = await Cart.create({
@@ -74,7 +74,7 @@ router.post("/", async (req, res) => {
         ],
         totalPrice: product.price * quantity,
       });
-      res.status(200).json({ newCart });
+      res.status(200).json({status:true, newCart });
     }
   } catch (error) {
     console.log(error);
@@ -98,7 +98,7 @@ router.put("/", async (req, res) => {
     );
     if (productIndex > -1) {
       if (quantity > 0) {
-        cart.products[productIndex].quantity += quantity;
+        cart.products[productIndex].quantity = quantity;
       } else {
         cart.products.splice(productIndex, 1);
       }
@@ -107,7 +107,7 @@ router.put("/", async (req, res) => {
         0,
       );
       await cart.save();
-      res.status(200).json({ cart, message: "Cart updated successfully" });
+      res.status(200).json({ status:true,cart, message: "Cart updated successfully" });
     } else {
       res.status(404).json({ message: "Product not found" });
     }
@@ -119,6 +119,8 @@ router.put("/", async (req, res) => {
 // delete product
 router.delete("/", async (req, res) => {
   const { productId, size, color, guestId, userId } = req.body;
+  console.log(productId,size);
+  
   try {
     const cart = await getCart(userId, guestId);
     if (!cart) {
@@ -138,7 +140,7 @@ router.delete("/", async (req, res) => {
         0,
       );
       await cart.save();
-      res.status(200).json({ cart, message: "Product deleted successfully" });
+      res.status(200).json({status:true, cart, message: "Product deleted successfully" });
     } else {
       res.status(404).json({ message: "Product not found" });
     }

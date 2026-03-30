@@ -12,3 +12,19 @@
 
 }
 
+
+@import "tailwindcss";
+
+/* ✅ Custom animation */
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.5s ease-in-out;
+}

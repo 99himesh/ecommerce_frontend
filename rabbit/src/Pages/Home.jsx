@@ -10,9 +10,8 @@ const Home=()=>{
         <Hero/>
         <GenderCollectionSection/>
         <NewArrival/>
+        <h3 className="text-center font-semibold text-3xl"> Best Seller</h3>
         <ProductDetails/>
-       
-
         <FeatureSection/>
         </>
     )

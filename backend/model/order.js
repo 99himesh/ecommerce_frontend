@@ -49,10 +49,7 @@ const orderSchema=new mongoose.Schema({
             postalCode:{type:String,required:true},
             country:{type:String,required:true}
         },
-        paymentMethod:{
-            type:String,
-            required:true
-        },
+        
         totalPrice:{
             type:Number,
             required:true
@@ -73,14 +70,31 @@ const orderSchema=new mongoose.Schema({
             type:Date
     
         },
-        paymentStatus:{
-            type:String,
-            default:"Pending"
+        phoneNumber:{
+           type:String,
+           required:true
         },
+        email:{
+            type:String,
+            required:true
+        },
+        
         status:{
             type:String,
             enum:["Processing","Shipped","Delivered","Cancelled"],
             default:"Processing"
+        },
+         razorpay_payment_id:{
+                type:String,
+                required:true
+        },
+        razorpay_order_id:{
+          type:String,
+          required:true
+        },
+        razorpay_signature:{
+          type:String,
+          required:true
         }
         
       
@@ -92,3 +106,5 @@ const orderSchema=new mongoose.Schema({
     const Order=mongoose.model("Order",orderSchema) ;
 
     module.exports=Order;
+
+    

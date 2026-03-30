@@ -1,6 +1,44 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import LoginImage from "../assets/women.jpg"
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loginWithEmailAsync } from "../feature/authSlice";
+import { toast } from "sonner";
+import { mergeCartRouteAsync } from "../feature/cartSlice";
 const Login = () => {
+  const [loginInput,setLoginInput]=useState({
+    email:"",
+    password:""
+  })
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const {guestId}=useSelector(state=>state.auth);
+  const loginInPutHandler=(e)=>{
+    const {name,value}=e.target;
+     setLoginInput({...loginInput,[name]:value})
+  }
+
+  const signInHandler=async()=>{
+    console.log(loginInput);
+    
+     try {
+      const data={...loginInput}
+       const res=await dispatch(loginWithEmailAsync({data})).unwrap();
+       console.log(res.success);
+       if(res.success ){
+        const data={guestId:guestId}
+       await dispatch(mergeCartRouteAsync({data}))
+        navigate("/checkout")
+       }else{
+        toast.error(res.message)
+       }
+       
+     } catch (error) {
+       console.log(error);
+       
+     }
+     
+  }
   return (
     <div className="flex ">
 
@@ -23,6 +61,9 @@ const Login = () => {
           <div className="mb-4">
             <label className="block text-sm mb-1">Email</label>
             <input
+              name="email"
+              value={loginInput?.email}
+              onChange={(e)=>{loginInPutHandler(e)}}
               type="email"
               placeholder="Enter your email address"
               className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
@@ -33,6 +74,9 @@ const Login = () => {
           <div className="mb-6">
             <label className="block text-sm mb-1">Password</label>
             <input
+               name="password"
+              value={loginInput?.password}
+              onChange={(e)=>{loginInPutHandler(e)}}
               type="password"
               placeholder="Enter your password"
               className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-black"
@@ -40,7 +84,7 @@ const Login = () => {
           </div>
 
           {/* Button */}
-          <button className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
+          <button onClick={()=>{signInHandler()}} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
             Sign In
           </button>
 

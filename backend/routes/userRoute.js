@@ -23,14 +23,15 @@ router.post("/register",async (req,res)=>{
 
         jwt.sign(payload,process.env.JWAT_SECRET,{expiresIn:"24h"},(err,token )=>{
             if(err) throw new err;
-            res.json({
+            res.status(200).json({
                 user:{
                     _id:user?._id,
                     name:user?.name,
                     email:user?.email,
                     role:user?.role
                 },
-                token
+                token,
+                success:true
             })
         });
     } catch (error) {
@@ -66,7 +67,9 @@ router.post("/login",async(req,res)=>{
                     email:user?.email,
                     role:user?.role
                 },
-                token
+                token,
+                success:true
+
             })
         });
     } catch (error) {

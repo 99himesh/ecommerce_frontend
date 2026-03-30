@@ -3,63 +3,31 @@ import "swiper/css";
 import { Navigation } from "swiper/modules";
 import "swiper/css/navigation";
 import { Link } from "react-router";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getNewArrivalProductAsync } from "../../feature/productSlice";
 
 const NewArrival = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const mockNewArrival = [
-    {
-      title: "Classic T-Shirt",
-      image: "https://picsum.photos/500/600?random=1",
-      price: 499,
-    },
-    {
-      title: "Denim Jacket",
-      image: "https://picsum.photos/500/600?random=2",
-      price: 1499,
-    },
-    {
-      title: "Casual Shoes",
-      image: "https://picsum.photos/500/600?random=3",
-      price: 1999,
-    },
-    {
-      title: "Leather Bag",
-      image: "https://picsum.photos/500/600?random=4",
-      price: 2499,
-    },
-    {
-      title: "Summer Shirt",
-      image: "https://picsum.photos/500/600?random=5",
-      price: 699,
-    },
-    {
-      title: "Sports Watch",
-      image: "https://picsum.photos/500/600?random=6",
-      price: 2999,
-    },
-    {
-      title: "Hoodie",
-      image: "https://picsum.photos/500/600?random=7",
-      price: 899,
-    },
-    {
-      title: "Sneakers",
-      image: "https://picsum.photos/500/600?random=8",
-      price: 1799,
-    },
-    {
-      title: "Cap",
-      image: "https://picsum.photos/500/600?random=9",
-      price: 299,
-    },
-    {
-      title: "Backpack",
-      image: "https://picsum.photos/500/600?random=10",
-      price: 1299,
-    },
-  ];
+  const dispatch=useDispatch();
+ 
+  const {newArrival}=useSelector(state=>state.product)
+
+  const getNewArrival=async()=>{
+    try {
+      const res=await dispatch(getNewArrivalProductAsync()).unwrap();
+      console.log(res);
+      
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+  useEffect(()=>{
+     getNewArrival();
+  },[])
   return (
     <section className="py-16 px-4 lg:px-0">
       <div className="container mx-auto text-center mb-10 relative">
@@ -110,11 +78,11 @@ const NewArrival = () => {
             });
           }}
         >
-          {mockNewArrival.map((item) => {
+          {newArrival.map((item) => {
             return (
               <SwiperSlide>
                 <div className="relative">
-                  <img src={item?.image} alt="rabbit" className="" />
+                  <img src={item?.images[0]?.url} alt="rabbit" className="" />
                   <div className="absolute  left-0 right-0 bottom-0  backdrop-blur-xl rounded-b-lg text-white p-4 rounded-b-ld">
                     <Link className="">
                       <h2 className=" text-white font-medium">{item?.title}</h2>

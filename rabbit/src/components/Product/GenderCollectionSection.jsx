@@ -16,7 +16,7 @@ const GenderCollectionSection=()=>{
                         <h2 className="text-2xl font-bold text-gray-900 mb-3"> 
                             Women's collection
                         </h2>
-                        <Link to={"/collection"}
+                        <Link to={"/collections/Women"}
                         
                         className="text-gray-900 underline"
                         >
@@ -36,7 +36,7 @@ const GenderCollectionSection=()=>{
                         <h2 className="text-2xl font-bold text-gray-900 mb-3"> 
                             Men's collection
                         </h2>
-                        <Link to={"/collection"}
+                        <Link to={"/collections/Men"}
                         
                         className="text-gray-900 underline"
                         >
