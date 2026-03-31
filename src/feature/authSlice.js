@@ -5,13 +5,13 @@ import getGuestId from "../utility/generateGuestId";
 const token=Cookies.get("token");
 const guestId=getGuestId();
 const userId=Cookies.get("userId");
-console.log(guestId,token,userId);
 
 const initialState = {
     token:token || null,
     guestId:guestId ,
     userId:userId || null,
     isAuthenticated: !!token,
+    user:{},
     isLoading:false,
     error:null
 };
@@ -39,6 +39,23 @@ export const registerWithEmailAsync = createAsyncThunk(
       const res = await api.post(`/users/register`,data,{
         headers: {
           "Content-Type": "application/json",
+        }
+      });
+      return res?.data; // No need for `await res.data`
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const getUserAsync = createAsyncThunk(
+  "auth/userAsync",
+ async ({token}) => {
+        try {
+      const res = await api.get(`users/profile`,{
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
         }
       });
       return res?.data; // No need for `await res.data`
@@ -99,6 +116,19 @@ export const authSlice = createSlice({
          
         });
         builder.addCase(registerWithEmailAsync.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        });
+        builder.addCase(getUserAsync.pending, (state) => {
+          state.isLoading = true;
+        });
+        builder.addCase(getUserAsync.fulfilled, (state, action) => {                
+          state.isLoading = false;
+          state.user=action.payload
+         
+         
+        });
+        builder.addCase(getUserAsync.rejected, (state, action) => {
           state.isLoading = false;
           state.error = action.payload;
         });

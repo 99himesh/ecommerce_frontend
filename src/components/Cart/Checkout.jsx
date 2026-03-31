@@ -8,7 +8,6 @@ import { useNavigate } from "react-router";
 const Checkout = () => {
    const dispatch=useDispatch();
   const {cart}=useSelector(state=>state.cart);
-  const {checkout}=useSelector(state=>state.order);
   const navigate=useNavigate();
   const token=Cookies.get("token");
   const userId=Cookies.get("userId");
@@ -29,18 +28,15 @@ const Checkout = () => {
           setCheckOutInput({...checkOutInput,[name]:value})
         }
     const checkoutHandler=async()=>{
-        const hasFalsy = Object.values(checkOutInput).some(value => !value);
-        if(hasFalsy){
-          return toast.error("Please enter all field")
-        }
+       
       try {
       const data={amount:totalPrice}
       const res=await dispatch(checkOutAsyncAsync({data,token})).unwrap();
-      console.log(res);
       
-      if(res.success){
+      
+      if(res?.success){
         toast.success("Order created successfully");
-        payHandler()
+        return res;
       }
     } catch (error) {
       console.log(error);
@@ -85,6 +81,9 @@ const Checkout = () => {
         const res=await dispatch(orderAsyncAsync({data,token})).unwrap();
         if(res.success){
             navigate(`/thankyou/${res.razorpay_payment_id}`)
+        }else{
+       navigate("/paymentFailed")
+
         }
       } catch (error) {
         toast.error("Something Went wrong please try again")
@@ -93,13 +92,18 @@ const Checkout = () => {
   }
 
  const payHandler=async()=>{
+   const hasFalsy = Object.values(checkOutInput).some(value => !value);
+        if(hasFalsy){
+          return toast.error("Please enter all field")
+        }
+    const {order}=await checkoutHandler()
      const options = {
         key: 'rzp_test_SQbjbgFl5E0fbf', // Replace with your Razorpay key_id
         amount: totalPrice*100 , // Amount is in currency subunits.
         currency: 'INR',
         name: 'Rabbit',
         description: 'Test Transaction',
-        order_id: checkout?.id, // This is the order_id created in the backend
+        order_id: order?.id, // This is the order_id created in the backend
         prefill: {
           name: 'Gaurav Kumar',
           email: 'gaurav.kumar@example.com',
@@ -108,21 +112,22 @@ const Checkout = () => {
         theme: {
           color: '#F37254'
         },
-        handler:function (response){
-          const item={
-            razorpay_payment_id:response?.razorpay_payment_id,
-            razorpay_order_id:response?.razorpay_order_id,
-            razorpay_signature:response?.razorpay_signature
-          }
-          paymentVerification(item)
-          },
-      };
+          handler:function (response){
+            const item={
+              razorpay_payment_id:response?.razorpay_payment_id,
+              razorpay_order_id:response?.razorpay_order_id,
+              razorpay_signature:response?.razorpay_signature
+            }
+            paymentVerification(item)
+            },
+        };
 
       const rzp = new window.Razorpay(options);
       rzp.open();
 
       rzp.on('payment.failed', function (response){
-        alert("Payment Failed")
+        
+       navigate("/paymentFailed")
   })
 }
 
@@ -222,7 +227,7 @@ const Checkout = () => {
 
           </div>
        
-            <button onClick={()=>{checkoutHandler()}}  className="mt-8 w-full bg-black text-white py-3 rounded-md">
+            <button onClick={()=>{payHandler()}}  className="mt-8 w-full bg-primary text-white py-3 rounded-md">
             Continue to Payment
                </button>
            

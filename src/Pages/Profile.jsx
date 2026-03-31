@@ -1,18 +1,49 @@
+import { useDispatch, useSelector } from "react-redux";
 import MyOrderPage from "./MyOrderPage";
-
+import { getUserAsync, logout } from "../feature/authSlice";
+import { useNavigate } from "react-router";
+import { resetOrderHandler } from "../feature/orderSlice";
+import Cookies from "js-cookie"
+import { useEffect } from "react";
 
 const Profile = () => {
+  const token=Cookies.get("token")
+ const dispatch=useDispatch();
+ const navigate=useNavigate();
+ const {user}=useSelector(state=>state.auth);
+ console.log(user,"user");
  
+ const logoutHandler=async()=>{
+   dispatch(logout());
+   dispatch(resetOrderHandler())
+  navigate("/login")
 
+
+ }
+
+
+
+ const getProfile=async()=>{
+  try {
+    const res=await dispatch(getUserAsync({token})).unwrap();
+    console.log(res,"dsjfb");
+    
+  } catch (error) {
+    
+  }
+ }
+ useEffect(()=>{
+     getProfile();
+ },[])
   return (
     <div className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
 
       {/* Left Profile Card */}
       <div className="bg-white shadow rounded-lg p-6 h-fit">
-        <h2 className="text-xl font-semibold mb-1">John Doe</h2>
-        <p className="text-gray-500 mb-4">John@example.com</p>
+        <h2 className="text-xl font-semibold mb-1">{user?.user?.name}</h2>
+        <p className="text-gray-500 mb-4">{user?.user?.email}</p>
 
-        <button className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600">
+        <button onClick={()=>{logoutHandler()}} className="w-full bg-primary text-white py-2 rounded hover:bg-primary">
           Logout
         </button>
       </div>

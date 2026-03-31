@@ -12,7 +12,6 @@ const CollectionPage=()=>{
     const {collection}=useParams();
     const dispatch=useDispatch();
     const {products}=useSelector(state=>state.product);
-    console.log(collection);
      const data={};
     const [filterOpen,setFilterOpen]=useState(false);
     const [filter,setFilter]=useState({
@@ -25,7 +24,6 @@ const CollectionPage=()=>{
         minPrice:0,
         maxPrice:10000
     })
-    console.log(filter,"filter");
     
     switch (collection) {
         case "Men":

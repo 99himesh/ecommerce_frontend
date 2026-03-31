@@ -1,8 +1,8 @@
 import {createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../axios/axios";
+import { useState } from "react";
 const initialState = {
     order:[],
-    checkout:{},
     isLoading:false,
     error:null
 };
@@ -64,6 +64,9 @@ export const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {
+    resetOrderHandler:(state,action)=>{
+      state.order=[]
+    }
     
   },
   extraReducers: (builder) => {
@@ -72,7 +75,6 @@ export const orderSlice = createSlice({
               });
        builder.addCase(checkOutAsyncAsync.fulfilled, (state, action) => {                
                 state.isLoading = false;
-                state.checkout=action.payload?.order;
                
               });
       builder.addCase(checkOutAsyncAsync.rejected, (state, action) => {
@@ -111,5 +113,6 @@ export const orderSlice = createSlice({
 
   },
 });
+export const {resetOrderHandler}=orderSlice.actions;
 export default orderSlice.reducer;
 

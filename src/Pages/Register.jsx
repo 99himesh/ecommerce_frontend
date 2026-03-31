@@ -21,7 +21,6 @@ const Register = () => {
   }
 
   const registerHandler=async()=>{
-       console.log("res");
     
      try {
       const data={...registerInput}
@@ -95,13 +94,13 @@ const Register = () => {
           </div>
 
           {/* Button */}
-          <button  onClick={(e)=>{registerHandler()}} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
+          <button   onClick={(e)=>{registerHandler()}} className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary  cursor-pointer">
            Register
           </button>
 
           <Link to={"/login"} className="text-center text-sm mt-4">
             Don’t have an account?
-            <span className="text-blue-500 cursor-pointer">Login</span>
+            <span className="text-primary cursor-pointer">Login</span>
           </Link>
 
         </div>

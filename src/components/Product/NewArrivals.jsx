@@ -17,7 +17,6 @@ const NewArrival = () => {
   const getNewArrival=async()=>{
     try {
       const res=await dispatch(getNewArrivalProductAsync()).unwrap();
-      console.log(res);
       
       
     } catch (error) {
@@ -35,14 +34,14 @@ const NewArrival = () => {
         <div className="md:absolute right-0 -top-2 flex gap-3 justify-center  py-4">
           <button
             ref={prevRef}
-            className="custom-prev bg-black text-white px-4 py-2 rounded"
+            className="custom-prev bg-primary text-white px-4 py-2 rounded"
           >
             Prev
           </button>
 
           <button
             ref={nextRef}
-            className="custom-next bg-black text-white px-4 py-2 rounded"
+            className="custom-next bg-primary text-white px-4 py-2 rounded"
           >
             Next
           </button>

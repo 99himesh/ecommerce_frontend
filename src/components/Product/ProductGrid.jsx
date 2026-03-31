@@ -44,8 +44,8 @@ const ProductGrid = ({similerProducts}) => {
 
             {/* Image */}
             <img
-              src={product.images[0]?.url}
-              alt={product.name}
+              src={product?.images[0]?.url}
+              alt={product?.name}
               className="w-full h-72 object-cover rounded-lg"
             />
 
@@ -53,11 +53,11 @@ const ProductGrid = ({similerProducts}) => {
             <div className="mt-3">
 
               <h3 className="text-sm font-medium">
-                {product.name}
+                {product?.name}
               </h3>
 
               <p className="text-gray-600 text-sm">
-                {product.price}
+                {product?.price}
               </p>
 
             </div>

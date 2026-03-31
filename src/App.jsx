@@ -10,8 +10,10 @@ import ProductDetails from "./components/Product/ProductDetails"
 import Checkout from "./components/Cart/Checkout"
 import MyOrderPage from "./Pages/MyOrderPage"
 import ThankYouPage from "./Pages/ThakyouPage"
+import PaymentFailedPage from "./Pages/PaymentFailed"
+import { useSelector } from "react-redux"
 function App() {
-  
+  const userId=useSelector(state=>state.auth)
   return (
     <>
      <Toaster position="top-right"/>
@@ -28,6 +30,9 @@ function App() {
       <Route path="checkout" element={<Checkout/>}/>
       <Route path="order" element={<MyOrderPage/>}/>
       <Route path="thankyou/:id" element={<ThankYouPage/>}/>
+      <Route path="paymentFailed" element={<PaymentFailedPage/>}/>
+      
+      
       
     
     </Route>

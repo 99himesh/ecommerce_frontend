@@ -2,18 +2,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOrderAsync } from "../feature/orderSlice";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
+import { Empty } from "antd";
 
 const MyOrderPage=()=>{
   const token=Cookies.get("token");
-  const {order}=useSelector(state=>state.order)
-  console.log(order);
+  const userId=Cookies.get("userId")
+  const {order}=useSelector(state=>state?.order)
   
   const dispatch=useDispatch();
    
   const getMyOrder=async()=>{
     try {
       const res=await dispatch(getOrderAsync({token})).unwrap();
-      console.log(res,"res");
       
       
     } catch (error) {
@@ -22,7 +22,10 @@ const MyOrderPage=()=>{
     }
   }
   useEffect(()=>{
+    if(userId){
     getMyOrder();
+
+    }
   },[])
     return(
         <>
@@ -45,7 +48,7 @@ const MyOrderPage=()=>{
             </thead>
 
             <tbody>
-              {order.map((item, index) => (
+              {order?.map((item, index) => (
                 <tr key={index} className="border-t">
                   <td className="p-3">
                     <img
@@ -65,6 +68,8 @@ const MyOrderPage=()=>{
             </tbody>
 
           </table>
+         {!order.length && <Empty/>}
+
         </div>
       </div>
       </div>

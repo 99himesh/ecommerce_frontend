@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 import { getBestSellerProductAsync, getProductDetailsAsync, getSimilerProductAsync } from "../../feature/productSlice.js";
 // import { toast } from "sonner";
 import Cookies from "js-cookie"
-import { addToCartCartAsync, getCartAsync } from "../../feature/cartSlice.js";
+import { addToCartCartAsync, cartDrawerHandler, getCartAsync } from "../../feature/cartSlice.js";
 const ProductDetails = () => {
   const {productDetails,similerProducts,bestSeller}=useSelector(state=>state.product);
   const [mainImage, setMainImage] = useState("");
@@ -57,7 +57,6 @@ const getCart=async()=>{
           data.guestId=guestId
         }
         const res=await dispatch(getCartAsync({data})).unwrap();
-        console.log(res);
         
         
        } catch (error) {
@@ -67,7 +66,6 @@ const getCart=async()=>{
 
 
   const addToCartHandler=async()=>{
-    console.log(variant);
     
       if(!variant?.color || !variant?.size || quantity==0){
      return toast.error("Please select required field")
@@ -86,10 +84,11 @@ const getCart=async()=>{
           data.guestId=guestId
         }
       const res=await dispatch(addToCartCartAsync({data})).unwrap();
-      console.log(res);
+     
       if(res.status){
         toast.success("Successfully add to cart")
         getCart()
+        dispatch(cartDrawerHandler(true))
       }
       
       
@@ -174,7 +173,7 @@ const getCart=async()=>{
                 <button
                 onClick={()=>{setVariant({...variant,size:size})}}
                   key={i}
-                  className={`border px-3 py-1 rounded hover:bg-black hover:text-white ${size==variant?.size && "bg-black text-white"}`}
+                  className={`border px-3 py-1 rounded hover:bg-primary hover:text-white ${size==variant?.size && "bg-primary text-white"}`}
                 >
                   {size}
                 </button>
@@ -206,7 +205,7 @@ const getCart=async()=>{
 
           {/* BUTTON */}
           <button    onClick={() =>addToCartHandler()}
-             className="w-full bg-black text-white py-3 rounded">
+             className="w-full bg-primary text-white py-3 rounded">
             ADD TO CART
           </button>
 
