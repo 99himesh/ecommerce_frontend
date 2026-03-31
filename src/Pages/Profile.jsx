@@ -3,6 +3,7 @@ import MyOrderPage from "./MyOrderPage";
 import { getUserAsync, logout } from "../feature/authSlice";
 import { useNavigate } from "react-router";
 import { resetOrderHandler } from "../feature/orderSlice";
+import { cartResetHandler } from "../feature/cartSlice";
 
 
 const Profile = () => {
@@ -14,7 +15,9 @@ const Profile = () => {
  const logoutHandler=async()=>{
    dispatch(logout());
    dispatch(resetOrderHandler())
-   navigate("/login")
+   dispatch(cartResetHandler())
+   navigate("/login");
+
 
 
  }

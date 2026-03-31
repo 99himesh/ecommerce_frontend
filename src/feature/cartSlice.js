@@ -100,6 +100,9 @@ export const cartSlice = createSlice({
   reducers: {
      cartDrawerHandler:(state,action)=>{
       state.cartDrawer=action.payload
+     },
+     cartResetHandler:(state,action)=>{
+      state.cart=[]
      }
   },
   extraReducers: (builder) => {
@@ -166,6 +169,6 @@ export const cartSlice = createSlice({
 
   },
 });
-export const {cartDrawerHandler}=cartSlice.actions;
+export const {cartDrawerHandler,cartResetHandler}=cartSlice.actions;
 export default cartSlice.reducer;
 

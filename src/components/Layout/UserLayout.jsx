@@ -17,7 +17,7 @@ const UserLayout = () => {
  }
  useEffect(()=>{
      getProfile();
- },[])
+ },[token])
 
   return (
     <>
