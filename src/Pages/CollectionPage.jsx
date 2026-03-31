@@ -41,6 +41,7 @@ const CollectionPage=()=>{
         case "BottomWear":
                 data.collection=collection
             break;
+        
 
      }
     if(filter?.category) data.category=filter?.category;
@@ -51,6 +52,8 @@ const CollectionPage=()=>{
     if(filter?.brand.length) data.brand=filter?.brand.join(",");
     if(filter?.minPrice) data.minPrice=filter?.minPrice;
     if(filter?.maxPrice) data.maxPrice=filter?.maxPrice;
+    if(collection?.slice(0,6)=="search" && collection?.slice(7).length) data.search=collection?.slice(7)
+   
 
 
     const getProducts=async()=>{

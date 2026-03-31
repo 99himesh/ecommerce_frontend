@@ -10,12 +10,13 @@ import { Image } from "antd";
 import logo from "../../assets/logo.svg";
 import Cookies from "js-cookie"
 const Navbar =()=>{
-    // const [cartDrawer,setCartDrawer]=useState(false);
     const userId=Cookies.get("userId");
     const dispatch=useDispatch();
     const {cart}=useSelector(state=>state.cart)
     const {cartDrawer}=useSelector(state=>state.cart)
     const [menuHeader,setMenuHeader]=useState(false);
+    const {user}=useSelector(state=>state.auth);
+
 
     return(
         <>
@@ -50,7 +51,7 @@ const Navbar =()=>{
                 </Link>
                 <Link onClick={()=>{dispatch(cartDrawerHandler(true))}}  className="relative">
                    <HiOutlineShoppingBag className="h-6 w-6 text-gray-700"/>
-                <spam className={"bg-primary text-white absolute -top-3 -right-3 text-sm rounded-full px-2 py-0.5"}>{cart?.length}</spam>
+               {user?.cartCount>0 &&  <spam className={"bg-primary text-white absolute -top-3 -right-3 text-sm rounded-full px-2 py-0.5"}>{user?.cartCount}</spam>}
                 </Link>
                {/* searchbar */}
                  <SearchBar/>

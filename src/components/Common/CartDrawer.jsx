@@ -5,11 +5,14 @@ import { useNavigate } from "react-router";
 import { cartDrawerHandler, deleteCartAsync, getCartAsync, updateCartAsync } from "../../feature/cartSlice";
 import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
+import { getUserAsync } from "../../feature/authSlice";
+import Cookies from "js-cookie";
 const CartDrawer=()=>{ 
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const {userId,guestId}=useSelector(state=>state?.auth);
     const {cartDrawer,cart}=useSelector(state=>state?.cart)
+    const token=Cookies.get("token");
     const getCart=async()=>{
        try {
         const data={}
@@ -42,6 +45,7 @@ const CartDrawer=()=>{
             if(res.status){
                 toast.success(res.message);
                 getCart();
+                dispatch(getUserAsync({token}))
             }
             
             

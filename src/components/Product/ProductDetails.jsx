@@ -7,6 +7,7 @@ import { getBestSellerProductAsync, getProductDetailsAsync, getSimilerProductAsy
 // import { toast } from "sonner";
 import Cookies from "js-cookie"
 import { addToCartCartAsync, cartDrawerHandler, getCartAsync } from "../../feature/cartSlice.js";
+import { getUserAsync } from "../../feature/authSlice.js";
 const ProductDetails = () => {
   const {productDetails,similerProducts,bestSeller}=useSelector(state=>state.product);
   const [mainImage, setMainImage] = useState("");
@@ -18,6 +19,7 @@ const ProductDetails = () => {
   const {id}=useParams();
   const dispatch=useDispatch();
  const {guestId,userId}=useSelector(state=>state.auth);
+ const token=Cookies.get("token");
   
   const products=Object.keys(productDetails).length>0?productDetails:bestSeller
   const getbestSeller=async()=>{
@@ -88,7 +90,8 @@ const getCart=async()=>{
       if(res.status){
         toast.success("Successfully add to cart")
         getCart()
-        dispatch(cartDrawerHandler(true))
+        dispatch(cartDrawerHandler(true));
+         dispatch(getUserAsync({token}))
       }
       
       
@@ -96,6 +99,9 @@ const getCart=async()=>{
       
     }
   }
+
+  
+
 
   useEffect(()=>{  
     if(id){

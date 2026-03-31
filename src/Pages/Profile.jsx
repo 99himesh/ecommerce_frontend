@@ -3,11 +3,9 @@ import MyOrderPage from "./MyOrderPage";
 import { getUserAsync, logout } from "../feature/authSlice";
 import { useNavigate } from "react-router";
 import { resetOrderHandler } from "../feature/orderSlice";
-import Cookies from "js-cookie"
-import { useEffect } from "react";
+
 
 const Profile = () => {
-  const token=Cookies.get("token")
  const dispatch=useDispatch();
  const navigate=useNavigate();
  const {user}=useSelector(state=>state.auth);
@@ -16,25 +14,14 @@ const Profile = () => {
  const logoutHandler=async()=>{
    dispatch(logout());
    dispatch(resetOrderHandler())
-  navigate("/login")
+   navigate("/login")
 
 
  }
 
 
 
- const getProfile=async()=>{
-  try {
-    const res=await dispatch(getUserAsync({token})).unwrap();
-    console.log(res,"dsjfb");
-    
-  } catch (error) {
-    
-  }
- }
- useEffect(()=>{
-     getProfile();
- },[])
+
   return (
     <div className="container mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
 
