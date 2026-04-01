@@ -10,7 +10,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
     <Provider store={store}>
-       <ConfigProvider theme={{ token: { colorPrimary: "#ea2e0e" } }}>
+       <ConfigProvider theme={{ token: { colorPrimary: "#065F46" } }}>
     <App />
     </ConfigProvider>
     </Provider>

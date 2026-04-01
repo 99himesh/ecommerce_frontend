@@ -76,8 +76,8 @@ export const authSlice = createSlice({
       Cookies.remove("token");
       Cookies.remove("userId");
       state.user=null
-      // अगर चाहें तो guestId भी हटा सकते हैं, लेकिन आमतौर पर रहने देते हैं।
     },
+  
   
     
   },
