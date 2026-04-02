@@ -24,7 +24,7 @@ const Footer = () => {
               placeholder="Enter your email"
               className="border px-3 py-2 w-full text-sm rounded-l-md outline-none"
             />
-            <button className="bg-black text-white px-4 py-2 text-sm rounded-r-md">
+            <button className="bg-primary text-white px-4 py-2 text-sm rounded-r-md">
               Subscribe
             </button>
           </div>
@@ -66,7 +66,7 @@ const Footer = () => {
 
           <div className="flex items-center space-x-2 text-sm font-medium">
             <FiPhone />
-            <span>8081648805</span>
+            <span>9090987767</span>
           </div>
         </div>
       </div>

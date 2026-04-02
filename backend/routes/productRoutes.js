@@ -263,7 +263,6 @@ router.put("/:id",protect,admin,async(req,res)=>{
 
   //new arrival
   router.get("/new-arrival",async(req,res)=>{
-        console.log("newArrival");
     try {
         const newArrival=await Product.find().sort({createdAt:-1}).limit(8);
         if(newArrival){
@@ -284,10 +283,8 @@ router.put("/:id",protect,admin,async(req,res)=>{
      router.get("/:id",async(req,res)=>{
       try {
           const {id}=req.params;
-          console.log(id);
           
           const product=await Product.findById(id);
-          console.log(product);
           
           if(product){
               res.status(200).json({
@@ -319,7 +316,6 @@ router.put("/:id",protect,admin,async(req,res)=>{
             gender:product.gender,
             category:product.category
         }).limit(4);
-        console.log(similerProduct);
         
 
         res.status(200).json({message:"Similer Product fetch successfully",data:similerProduct})

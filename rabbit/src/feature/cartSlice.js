@@ -3,6 +3,7 @@ import api from "../axios/axios";
 import Cookies from "js-cookie" 
 const initialState = {
     cart:[],
+    cartDrawer:false,
     isLoading:false,
     error:null
 };
@@ -97,7 +98,12 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    
+     cartDrawerHandler:(state,action)=>{
+      state.cartDrawer=action.payload
+     },
+     cartResetHandler:(state,action)=>{
+      state.cart=[]
+     }
   },
   extraReducers: (builder) => {
        builder.addCase(addToCartCartAsync.pending, (state) => {
@@ -163,5 +169,6 @@ export const cartSlice = createSlice({
 
   },
 });
+export const {cartDrawerHandler,cartResetHandler}=cartSlice.actions;
 export default cartSlice.reducer;
 

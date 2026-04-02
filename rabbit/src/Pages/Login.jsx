@@ -19,16 +19,16 @@ const Login = () => {
   }
 
   const signInHandler=async()=>{
-    console.log(loginInput);
     
      try {
       const data={...loginInput}
        const res=await dispatch(loginWithEmailAsync({data})).unwrap();
-       console.log(res.success);
        if(res.success ){
         const data={guestId:guestId}
-       await dispatch(mergeCartRouteAsync({data}))
-        navigate("/checkout")
+       await dispatch(mergeCartRouteAsync({data}));
+     
+         navigate("/profile")
+
        }else{
         toast.error(res.message)
        }
@@ -84,13 +84,13 @@ const Login = () => {
           </div>
 
           {/* Button */}
-          <button onClick={()=>{signInHandler()}} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800">
+          <button onClick={()=>{signInHandler()}} className="w-full bg-primary text-white py-2 rounded-md hover:bg-primary cursor-pointer">
             Sign In
           </button>
 
           <Link to={"/register"} className="text-center text-sm mt-4">
             Don’t have an account?{" "}
-            <span className="text-blue-500 cursor-pointer">Register</span>
+            <span className="text-primary cursor-pointer">Register</span>
           </Link>
 
         </div>

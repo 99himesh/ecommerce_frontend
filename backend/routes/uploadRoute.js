@@ -41,7 +41,6 @@ router.post("/",upload.single("image"),async (req,res)=>{
         }
         //call streamUpload function 
         const result =await streamUpload(req.file.buffer);
-         console.log(result);
          
         //Respond with the uploaded the image Url
         res.json({imageUrl:result.secure_url})

@@ -5,7 +5,6 @@ const {protect}=require("../middleware/protect") ;
 const router =express.Router();
 const crypto =require("crypto");
 const { instance } = require("../config/PaymentInstance.js");
-console.log(process.env.RAZORPAY_SECRET);
 
 router.post("/checkout",protect,async(req,res)=>{
    const {amount}=req.body;
@@ -21,7 +20,6 @@ router.post("/checkout",protect,async(req,res)=>{
 router.post("/paymentVerification",protect,async(req,res)=>{
      const {user, checkoutItems, shippingAddress, totalPrice, isPaid, paidAt, isDelivered, deliverAt, phoneNumber, email, status, razorpay_payment_id, razorpay_order_id, razorpay_signature}=req.body;
      
-     console.log(process.env.RAZORPAY_SECRET);
      
      
           let body =razorpay_order_id+"|"+razorpay_payment_id;

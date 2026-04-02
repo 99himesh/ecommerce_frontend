@@ -1,5 +1,6 @@
 const express=require("express");
 const User=require("../model/users.js");
+const Cart=require("../model/cart.js");
 const jwt=require("jsonwebtoken");
 const {protect} = require("../middleware/protect.js");
 
@@ -46,7 +47,6 @@ router.post("/login",async(req,res)=>{
     try {
         //find user by email
         let user=await User.findOne({email});
-        console.log(user);
         
         if(!user){
             res.status(400).json({message:"User not found"});
@@ -83,8 +83,12 @@ router.post("/login",async(req,res)=>{
 
 
 
-router.get("/profile",protect,(req,res)=>{
-        res.json(req.user)
+router.get("/profile",protect,async(req,res)=>{
+    const cartCount=await Cart.findOne({user:req?.user?._id});
+    console.log(cartCount);
+      
+      
+        res.json({user:req.user,cartCount:cartCount?.products?.length})
 })
 
 

@@ -4,9 +4,19 @@ import SearchBar from "./SearchBar";
 import CartDrawer from "./CartDrawer";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { cartDrawerHandler } from "../../feature/cartSlice";
+import { Image } from "antd";
+import logo from "../../assets/logo.svg";
+import Cookies from "js-cookie"
 const Navbar =()=>{
-    const [cartDrawer,setCartDrawer]=useState(false);
+    const userId=Cookies.get("userId");
+    const dispatch=useDispatch();
+    const {cart}=useSelector(state=>state.cart)
+    const {cartDrawer}=useSelector(state=>state.cart)
     const [menuHeader,setMenuHeader]=useState(false);
+    const {user}=useSelector(state=>state.auth);
+
 
     return(
         <>
@@ -15,7 +25,7 @@ const Navbar =()=>{
             {/* Left Logo  */}
             <div>
                 <Link to={"/"} className="text-2xl font-medium">
-                Rabbit
+                  <Image preview={false} src={logo}/>
                 </Link>
             </div>
             {/*  center navigation */}
@@ -36,12 +46,12 @@ const Navbar =()=>{
 
             {/* Right section */}
                <div className="flex items-center space-x-6">
-                <Link to={"/"}>
+                <Link to={userId?`/profile`:`/login`}>
                    <HiOutlineUser className="h-6 w-6 text-gray-700"/>
                 </Link>
-                <Link onClick={()=>{setCartDrawer(true)}} to={"/"} className="relative">
+                <Link onClick={()=>{dispatch(cartDrawerHandler(true))}}  className="relative">
                    <HiOutlineShoppingBag className="h-6 w-6 text-gray-700"/>
-                <spam className={"bg-primary text-white absolute -top-3 -right-3 text-sm rounded-full px-2 py-0.5"}>{1}</spam>
+               {user?.cartCount>0 &&  <spam className={"bg-primary text-white absolute -top-3 -right-3 text-sm rounded-full px-2 py-0.5"}>{user?.cartCount}</spam>}
                 </Link>
                {/* searchbar */}
                  <SearchBar/>
@@ -53,7 +63,7 @@ const Navbar =()=>{
             </div>
 
         </nav>
-        <CartDrawer setCartDrawer={setCartDrawer} cartDrawer={cartDrawer}/>
+        <CartDrawer  cartDrawer={cartDrawer}/>
 
         {/* Mobile navigation */}
         {menuHeader && (

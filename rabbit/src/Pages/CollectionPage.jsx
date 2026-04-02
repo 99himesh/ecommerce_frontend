@@ -12,7 +12,6 @@ const CollectionPage=()=>{
     const {collection}=useParams();
     const dispatch=useDispatch();
     const {products}=useSelector(state=>state.product);
-    console.log(collection);
      const data={};
     const [filterOpen,setFilterOpen]=useState(false);
     const [filter,setFilter]=useState({
@@ -25,7 +24,6 @@ const CollectionPage=()=>{
         minPrice:0,
         maxPrice:10000
     })
-    console.log(filter,"filter");
     
     switch (collection) {
         case "Men":
@@ -43,6 +41,7 @@ const CollectionPage=()=>{
         case "BottomWear":
                 data.collection=collection
             break;
+        
 
      }
     if(filter?.category) data.category=filter?.category;
@@ -53,6 +52,8 @@ const CollectionPage=()=>{
     if(filter?.brand.length) data.brand=filter?.brand.join(",");
     if(filter?.minPrice) data.minPrice=filter?.minPrice;
     if(filter?.maxPrice) data.maxPrice=filter?.maxPrice;
+    if(collection?.slice(0,6)=="search" && collection?.slice(7).length) data.search=collection?.slice(7)
+   
 
 
     const getProducts=async()=>{

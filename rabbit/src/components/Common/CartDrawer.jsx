@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { deleteCartAsync, getCartAsync, updateCartAsync } from "../../feature/cartSlice";
+import { cartDrawerHandler, deleteCartAsync, getCartAsync, updateCartAsync } from "../../feature/cartSlice";
 import { MdDelete } from "react-icons/md";
 import { toast } from "sonner";
-const CartDrawer=({setCartDrawer,cartDrawer})=>{ 
+import { getUserAsync } from "../../feature/authSlice";
+import Cookies from "js-cookie";
+const CartDrawer=()=>{ 
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const {userId,guestId}=useSelector(state=>state?.auth);
-    const {cart}=useSelector(state=>state?.cart);
+    const {cartDrawer,cart}=useSelector(state=>state?.cart)
+    const token=Cookies.get("token");
     const getCart=async()=>{
        try {
         const data={}
@@ -19,7 +22,6 @@ const CartDrawer=({setCartDrawer,cartDrawer})=>{
             data.userId=userId
         }
         const res=await dispatch(getCartAsync({data})).unwrap();
-        console.log(res);
         
         
        } catch (error) {
@@ -40,10 +42,10 @@ const CartDrawer=({setCartDrawer,cartDrawer})=>{
     
         try {
             const res=await dispatch(deleteCartAsync({data})).unwrap();
-            console.log(res);
             if(res.status){
                 toast.success(res.message);
                 getCart();
+                dispatch(getUserAsync({token}))
             }
             
             
@@ -81,7 +83,7 @@ const CartDrawer=({setCartDrawer,cartDrawer})=>{
     }
 
       const checkOutHandler=()=>{
-        setCartDrawer(false);
+        dispatch(cartDrawerHandler(false))
         
         if(userId){
         navigate("/checkout");
@@ -91,14 +93,16 @@ const CartDrawer=({setCartDrawer,cartDrawer})=>{
       }
      useEffect(()=>{
         getCart();
-     },[])
+     },[token])
     return(
-        <div className={`fixed top-0 right-0 w-3/4 sm:w-1/2 md:w-[30rem] h-full bg-white shadow-lg transform transition-transform duration-300 flex flex-col z-50 
-         ${cartDrawer?"translate-x-0":"translate-x-full"}`}>
+       <div
+  className={`fixed top-0 right-0 w-3/4 sm:w-1/2 md:w-[30rem] h-full bg-white shadow-lg transform transition-transform duration-300 flex flex-col z-50 
+  ${cartDrawer ? "translate-x-0" : "translate-x-full"}`}
+>
 
         {/* close button */}
         <div className="flex justify-end p-4">
-            <button onClick={()=>{setCartDrawer(false)}}>
+            <button onClick={()=>{dispatch(cartDrawerHandler(false))}}>
                 <IoMdClose className="h-6 w-6 text-gray-600"/>
             </button>
 
@@ -177,7 +181,7 @@ const CartDrawer=({setCartDrawer,cartDrawer})=>{
         </div>
         {/* checkout button */}
         <div className="p-4 bg-white sticky bottom-0">
-        <button onClick={()=>{checkOutHandler()}} className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition ">Checkout</button>
+        <button onClick={()=>{checkOutHandler()}} className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary transition ">Checkout</button>
         <p>
             Shipping ,Taxes and discount codes calcu
         </p>

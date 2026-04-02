@@ -1,7 +1,7 @@
 
 
 import { useState } from "react";
-
+import {Checkbox, Radio, Slider} from "antd"
 const DesktopFilter = ({ setFilterOpen, filterOpen,setFilter ,filter}) => {
   const colors = [
     "Red",
@@ -16,6 +16,14 @@ const DesktopFilter = ({ setFilterOpen, filterOpen,setFilter ,filter}) => {
     "Navy",
   ];
 
+   const categoryOptions=[
+    { label: 'Top wear', value: 'Topwear' },
+    { label: 'Bottom wear', value: 'Bottomwear' },
+   ]
+    const genderOptions=[
+    { label: 'Men', value: 'Men' },
+    { label: 'Women', value: 'Women' },
+   ]
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
   const brands = [
@@ -83,18 +91,27 @@ const MaterialHandler=(e)=>{
         <div className="p-5 overflow-y-auto space-y-6">
 
           {/* Category */}
-          <div>
+          {/* <div>
             <h3 className="font-semibold mb-2">Category</h3>
             <label className="flex items-center gap-2 mb-1">
               <input onChange={(e)=>setFilter({...filter,category:"Topwear"})} value={filter?.category}  type="radio" name="category" /> Top Wear
+        
             </label>
             <label className="flex items-center gap-2">
               <input onChange={(e)=>setFilter({...filter,category:"Bottomwear"})} value={filter?.category}  type="radio" name="category" /> Bottom Wear
             </label>
-          </div>
+          </div> */}
+          <div>
+             <h3 className="font-semibold mb-2">Category</h3>
+              <Radio.Group
+              onChange={(e)=>setFilter({...filter,category:e.target.value})}
+              options={categoryOptions}
+              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+            />
+            </div>
 
           {/* Gender */}
-          <div>
+          {/* <div>
             <h3 className="font-semibold mb-2">Gender</h3>
             <label className="flex items-center gap-2 mb-1">
               <input onChange={(e)=>setFilter({...filter,gender:"Men"})} value={filter?.gender}  type="radio" name="gender" /> Men
@@ -102,7 +119,15 @@ const MaterialHandler=(e)=>{
             <label className="flex items-center gap-2">
               <input onChange={(e)=>setFilter({...filter,gender:"Women"})} value={filter?.gender}  type="radio" name="gender" /> Women
             </label>
-          </div>
+          </div> */}
+           <div>
+             <h3 className="font-semibold mb-2">Gender</h3>
+              <Radio.Group
+              onChange={(e)=>setFilter({...filter,gender:e.target.value})}
+              options={genderOptions}
+              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+            />
+            </div>
 
           {/* Color */}
           <div>
@@ -128,7 +153,7 @@ const MaterialHandler=(e)=>{
 
             {sizes?.map((item) => (
               <label key={item} className="flex items-center gap-2 mb-1">
-                <input  onChange={(e) => sizeHandler(e)}  value={item} type="checkbox" />
+                <Checkbox onChange={(e) => sizeHandler(e)} value={item}/>
                 {item}
               </label>
             ))}
@@ -140,7 +165,9 @@ const MaterialHandler=(e)=>{
 
             {material.map((item) => (
               <label key={item} className="flex items-center gap-2 mb-1">
-                <input onChange={(e) => MaterialHandler(e)}  value={item} type="checkbox" />
+                {/* <input onChange={(e) => MaterialHandler(e)}  value={item} type="checkbox" /> */}
+                <Checkbox onChange={(e) => MaterialHandler(e)}  value={item}/>
+
                 {item}
               </label>
             ))}
@@ -151,7 +178,9 @@ const MaterialHandler=(e)=>{
 
             {brands?.map((item) => (
               <label key={item} className="flex items-center gap-2 mb-1">
-                <input  onChange={(e) => brandHandler(e)}  value={item} type="checkbox" />
+                {/* <input  onChange={(e) => brandHandler(e)}  value={item} type="checkbox" /> */}
+                <Checkbox onChange={(e) => brandHandler(e)} value={item}/>
+
                 {item}
               </label>
             ))}
@@ -161,7 +190,7 @@ const MaterialHandler=(e)=>{
           <div>
             <h3 className="font-semibold mb-2">Price Range</h3>
 
-            <input
+            {/* <input
               type="range"
               min="0"
               max="10000"
@@ -173,7 +202,8 @@ const MaterialHandler=(e)=>{
             <div className="flex justify-between text-sm mt-1">
               <span>$0</span>
               <span>${filter.maxPrice}</span>
-            </div>
+            </div> */}
+            <Slider onChange={(e) => setFilter({...filter,maxPrice:e[1],minPrice:e[0]})} range defaultValue={[100, 10000]} />
           </div>
         </div>
       </div>

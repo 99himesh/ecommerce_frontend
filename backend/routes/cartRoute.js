@@ -119,7 +119,6 @@ router.put("/", async (req, res) => {
 // delete product
 router.delete("/", async (req, res) => {
   const { productId, size, color, guestId, userId } = req.body;
-  console.log(productId,size);
   
   try {
     const cart = await getCart(userId, guestId);

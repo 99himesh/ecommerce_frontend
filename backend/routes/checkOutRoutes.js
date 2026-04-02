@@ -77,7 +77,6 @@ router.post("/:id/finalize",protect,async(req,res)=>{
   
     
     const checkout=await CheckOut.findById(req.params.id);
-    console.log(checkout,"checkout");
     
     if(!checkout){
       return res.json({message:"Checkout not found"})
