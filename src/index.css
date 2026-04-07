@@ -1,5 +1,6 @@
-@import "tailwindcss";
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 
 #root{
@@ -7,9 +8,7 @@
   font-optical-sizing: auto;
   font-style: normal;
 }
-@theme {
-  --color-primary:#065F46
-}
+
 
 
 @import "tailwindcss";
